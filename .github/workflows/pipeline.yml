@@ -51,9 +51,6 @@ jobs:
 
     - name: Show system under test logs
       run: docker compose -f sut/docker-compose.yml logs
-    - name: Stop database
-      if: always()
-      run: docker compose -f database/docker-compose.yml down
     - name: Stop system under test
       if: always()
       run: docker compose -f sut/docker-compose.yml down
