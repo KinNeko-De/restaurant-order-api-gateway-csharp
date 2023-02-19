@@ -1,0 +1,9 @@
+FROM mcr.microsoft.com/dotnet/aspnet:7.0-jammy AS base
+RUN apt-get update && apt-get upgrade -y && apt-get install -y curl
+
+WORKDIR /app
+EXPOSE 8080
+EXPOSE 3118
+
+COPY ./publish .
+ENTRYPOINT ["dotnet", "Restaurant.Order.ApiGateway.dll"]
