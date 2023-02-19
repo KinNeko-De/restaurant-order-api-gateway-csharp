@@ -8,7 +8,7 @@ env:
 
 concurrency: ci-${{ github.ref }}
 
-name: restaurant-order-svc
+name: restaurant-order-api-gateway
 
 jobs:
   build:
@@ -36,8 +36,6 @@ jobs:
 
     - name: Create docker network
       run: 'docker network create restaurant-dev-net'
-    - name: Start database
-      run: docker compose -f database/docker-compose.yml up --wait --quiet-pull
     - name: ComponentTest
       run: dotnet test Tests/*.ComponentTest --no-build --no-restore -c Release -p:Version=${{ env.SEMANTIC_VERSION }} --verbosity normal --collect:"XPlat Code Coverage" --settings Tests/coverlet.runsettings --results-directory=Tests/coverage
       timeout-minutes: 20
@@ -51,8 +49,6 @@ jobs:
       run: dotnet test Tests/*.IntegrationTest --no-build --no-restore -c Release -p:Version=${{ env.SEMANTIC_VERSION }} --verbosity normal --collect:"XPlat Code Coverage" --settings Tests/coverlet.runsettings --results-directory=Tests/coverage
       timeout-minutes: 10
 
-    - name: Show database logs
-      run: docker compose -f database/docker-compose.yml logs
     - name: Show system under test logs
       run: docker compose -f sut/docker-compose.yml logs
     - name: Stop database
