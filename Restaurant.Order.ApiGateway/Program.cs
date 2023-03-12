@@ -1,9 +1,11 @@
+extern alias ApiContract;
+using ApiContract::Kinnekode.Document.Grpc.V1;
+using Grpc.Core.Interceptors;
+using Grpc.Net.ClientFactory;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
 #pragma warning disable IDE0079 // Remove unnecessary suppression
@@ -27,7 +29,10 @@ public class Program
 {
     private static void ConfigureDependencyInjection(IServiceCollection services, ConfigurationManager configurationManager)
     {
-
+        services.AddGrpcClient<DocumentService.DocumentServiceClient>((_, options) =>
+        {
+            options.Address = new Uri("no_service_there");
+        });
     }
 
     public static async Task<int> Main(string[] args)

@@ -7,7 +7,8 @@ namespace Restaurant.Order.ApiGateway.Orders;
 [ApiController]
 public class OrderController : ControllerBase
 {
-    public struct OrderCreatedResponse {
+    public struct OrderCreatedResponse
+    {
         public required Guid Id { get; set; }
     }
 
